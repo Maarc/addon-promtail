@@ -10,7 +10,7 @@ FROM ${BUILD_FROM}
 
 ARG BUILD_ARCH=amd64
 # https://github.com/mikefarah/yq/releases
-ARG YQ_VERSION=4.27.3
+ARG YQ_VERSION=4.44.5
 
 # Add yq and tzdata (required for the timestamp stage)
 RUN apt-get update && apt-get install -qy libsystemd-dev
@@ -40,7 +40,7 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*;
 
 # Add promtail
-COPY --from=grafana/promtail:3.3.0 /usr/bin/promtail /usr/bin/promtail
+COPY --from=grafana/promtail:latest /usr/bin/promtail /usr/bin/promtail
 RUN promtail --version
 
 COPY rootfs /

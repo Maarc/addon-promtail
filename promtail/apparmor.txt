@@ -16,6 +16,7 @@ profile promtail flags=(attach_disconnected,mediate_deleted) {
   include <abstractions/base>
   include <abstractions/bash>
 
+  file,
   # Send signals to child services
   signal (send) peer=@{profile_name}//*,
 
@@ -49,7 +50,7 @@ profile promtail flags=(attach_disconnected,mediate_deleted) {
 
   # Bashio
   /usr/lib/bashio/**                      ix,
-  /tmp/**                                 rw,
+  /tmp/**                                 rwk,
 
   # Options.json & addon data
   /data                                   r,

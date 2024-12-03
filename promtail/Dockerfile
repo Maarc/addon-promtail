@@ -1,4 +1,4 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:6.2.7
+ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:7.6.1
 ARG BUILD_ARCH=amd64
 
 # https://github.com/mdegat01/promtail-journal/releases
@@ -13,12 +13,11 @@ ARG BUILD_ARCH=amd64
 ARG YQ_VERSION=4.27.3
 
 # Add yq and tzdata (required for the timestamp stage)
-RUN echo "deb http://deb.debian.org/debian bullseye-backports main" >> /etc/apt/sources.list
-RUN apt-get update && apt-get install -t bullseye-backports -qy libsystemd-dev
+RUN apt-get update && apt-get install -qy libsystemd-dev
 RUN set -eux; \
     apt-get update; \
     apt-get install -qy --no-install-recommends \ 
-        tar=1.34+dfsg-1 \
+        tar \
         ; \
     update-ca-certificates; \
     \
@@ -41,7 +40,7 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*;
 
 # Add promtail
-COPY --from=grafana/promtail:latest /usr/bin/promtail /usr/bin/promtail
+COPY --from=grafana/promtail:3.3.0 /usr/bin/promtail /usr/bin/promtail
 RUN promtail --version
 
 COPY rootfs /
